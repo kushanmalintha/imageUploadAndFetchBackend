@@ -1,4 +1,4 @@
-const { uploadImage, getImageByName } = require('./image_service');
+const { uploadImage, getImageByName, deleteImageByName } = require('./image_service');
 const multer = require('multer');
 
 const Storage = multer.memoryStorage();
@@ -34,7 +34,19 @@ const getImage = async (req, res) => {
     }
 };
 
+const deleteImage = async (req, res) => {
+    const { name } = req.params;
+    const result = await deleteImageByName(name);
+
+    if (result.success) {
+        res.send('Image deleted successfully');
+    } else {
+        res.status(404).send(result.message || 'Error deleting image');
+    }
+};
+
 module.exports = {
     handleUpload,
-    getImage
+    getImage,
+    deleteImage
 };

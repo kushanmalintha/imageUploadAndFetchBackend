@@ -30,7 +30,21 @@ const getImageByName = async (name) => {
     }
 };
 
+const deleteImageByName = async (name) => {
+    try {
+        const result = await ImageModel.deleteOne({ name });
+        if (result.deletedCount === 0) {
+            return { success: false, message: 'Image not found' };
+        }
+        return { success: true, message: 'Image deleted successfully' };
+    } catch (error) {
+        console.error('Error deleting image:', error);
+        return { success: false, error };
+    }
+};
+
 module.exports = {
     uploadImage,
-    getImageByName
+    getImageByName,
+    deleteImageByName
 };
